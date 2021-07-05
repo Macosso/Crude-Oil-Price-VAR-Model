@@ -60,9 +60,13 @@ CP <- CP[!is.na(CP)]
 rate = read.csv("STI-20210608181625181.csv", sep = ";")
 colnames(rate) <- c("date", "rate")
 
-
+### Clearing data with values close to zero as this is due to lack of data, 
+##in the original paper this was not cleaned initially this might have affected the results, and the lag selection.
+###The model in the paper was ran without the next line
 rate <- rate %>%
-        filter(rate >=0.001)### Clearing data with values close to zero as this is due to lack of data
+        filter(rate >=0.001)
+
+
 
 rate$date <- as.Date(rate$date, format = "%d/%m/%Y")
 rate <- rate[!is.na(rate$date),]
@@ -124,15 +128,15 @@ model_data_level$day <- wday(model_data_level)
 
 ###Test for stationarity
 pp.test(CP)
-pp.test(model_data$USD_BRL)
-pp.test(model_data$IBOVESPA)
-pp.test(model_data$CP)
-pp.test(model_data$rate)
+pp.test(model_data_level$USD_BRL)
+pp.test(model_data_level$IBOVESPA)
+pp.test(model_data_level$CP)
+pp.test(model_data_level$rate)
 
-adf.test(model_data$USD_BRL)
-adf.test(model_data$IBOVESPA)
-adf.test(model_data$CP)
-adf.test(model_data$rate)
+adf.test(model_data_level$USD_BRL)
+adf.test(model_data_level$IBOVESPA)
+adf.test(model_data_level$CP)
+adf.test(model_data_level$rate)
 
 
 
